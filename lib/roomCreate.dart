@@ -1,7 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-class RoomeCreate extends StatelessWidget {
+List<String> iconList = [
+  "images/icon-01.png",
+  "images/icon-02.png",
+  "images/icon-03.png",
+  "images/icon-04.png",
+  "images/icon-05.png",
+  "images/icon-06.png",
+  "images/icon-07.png",
+  "images/icon-08.png",
+];
+
+class RoomeCreate extends StatefulWidget {
+  // 使用するStateを指定
+  @override
+  _RoomeCreate createState() => _RoomeCreate();
+}
+
+// Stateを継承して使う
+class _RoomeCreate extends State<RoomeCreate> {
+  // 状態変数定義
+  bool roomType = true;
+  String userIcon = "";
+  Color colorPublic = Colors.yellow[700];
+  Color colorPrivate = Colors.green[700];
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -41,46 +65,38 @@ class RoomeCreate extends StatelessWidget {
                 )),
             Scaffold(
               backgroundColor: Colors.transparent,
-              appBar: PreferredSize(
-                  preferredSize: Size.fromHeight(60.0),
-                  child: AppBar(
-                    centerTitle: true,
-                    flexibleSpace: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('images/header.png'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Center(
-                              child: Text(
-                                "Car Pair Links",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30.0,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 2.0,
-                                ),
-                              ),
-                            )
-                          ]),
+              appBar: new AppBar(
+                flexibleSpace: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('images/header.png'),
+                      fit: BoxFit.cover,
                     ),
-                    backgroundColor: Colors.transparent,
-                    leading: IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                            context, '/roomHome'); //routesで定義した名称を指定する
-                      },
-                      icon: Icon(Icons.keyboard_arrow_left,
-                          size: 45, color: Colors.white),
-                    ),
-                  )),
+                  ),
+                ),
+                title: const Text(
+                  "CAR PAIR LINKS",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 2.0,
+                  ),
+                ),
+                backgroundColor: Colors.blue.withOpacity(0.3),
+                elevation: 0.0,
+                leading: IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(
+                        context, '/roomHome'); //routesで定義した名称を指定する
+                  },
+                  icon: Icon(Icons.keyboard_arrow_left,
+                      size: 45, color: Colors.white),
+                ),
+              ),
               body: Column(children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(top: 20, bottom: 10),
+                  padding: EdgeInsets.only(top: 20),
                   child: Text(
                     'ルームを作成',
                     style: TextStyle(
@@ -102,11 +118,12 @@ class RoomeCreate extends StatelessWidget {
                                     child: IconButton(
                               onPressed: () {},
                               icon: Icon(Icons.public,
-                                  size: 30, color: Colors.yellow[700]),
+                                  size: 30,
+                                  color: roomType ? colorPublic : colorPrivate),
                             ))),
                             ToggleSwitch(
                               minWidth: 137.5,
-                              initialLabelIndex: 0,
+                              initialLabelIndex: roomType ? 0 : 1,
                               cornerRadius: 20.0,
                               activeFgColor: Colors.black,
                               inactiveBgColor: Colors.grey,
@@ -117,7 +134,11 @@ class RoomeCreate extends StatelessWidget {
                                 Colors.green[700]
                               ],
                               onToggle: (index) {
+                                setState(() {
+                                  roomType = !roomType;
+                                });
                                 print('switched to: $index');
+                                print(roomType);
                               },
                             ),
                           ])),
@@ -129,7 +150,8 @@ class RoomeCreate extends StatelessWidget {
                                     child: IconButton(
                               onPressed: () {},
                               icon: Icon(Icons.meeting_room,
-                                  size: 30, color: Colors.yellow[700]),
+                                  size: 30,
+                                  color: roomType ? colorPublic : colorPrivate),
                             ))),
                             SizedBox(
                                 width: 275,
@@ -137,7 +159,7 @@ class RoomeCreate extends StatelessWidget {
                                 child: TextFormField(
                                     decoration: InputDecoration(
                                         labelText: "ルーム名",
-                                        hintText: "ルーム名",
+                                        hintText: roomType ? "ルーム名" : "ルーム名称",
                                         fillColor: Colors.white,
                                         border: OutlineInputBorder(
                                           borderRadius:
@@ -145,30 +167,31 @@ class RoomeCreate extends StatelessWidget {
                                           borderSide: BorderSide(),
                                         )))),
                           ])),
-                      Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Row(children: <Widget>[
-                            Container(
-                                child: Center(
-                                    child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.https,
-                                  size: 30, color: Colors.yellow[700]),
-                            ))),
-                            SizedBox(
-                                width: 275,
-                                height: 50,
-                                child: TextFormField(
-                                    decoration: InputDecoration(
-                                        labelText: "共有パスワード",
-                                        hintText: "共有パスワード",
-                                        fillColor: Colors.white,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(25.0),
-                                          borderSide: BorderSide(),
-                                        )))),
-                          ])),
+                      if (!roomType)
+                        Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: Row(children: <Widget>[
+                              Container(
+                                  child: Center(
+                                      child: IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.https,
+                                    size: 30, color: colorPrivate),
+                              ))),
+                              SizedBox(
+                                  width: 275,
+                                  height: 50,
+                                  child: TextFormField(
+                                      decoration: InputDecoration(
+                                          labelText: "共有パスワード",
+                                          hintText: "共有パスワード",
+                                          fillColor: Colors.white,
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(25.0),
+                                            borderSide: BorderSide(),
+                                          )))),
+                            ])),
                     ])),
                 Container(
                     padding: const EdgeInsets.all(30.0),
@@ -181,7 +204,8 @@ class RoomeCreate extends StatelessWidget {
                                     child: IconButton(
                               onPressed: () {},
                               icon: Icon(Icons.face,
-                                  size: 30, color: Colors.yellow[700]),
+                                  size: 30,
+                                  color: roomType ? colorPublic : colorPrivate),
                             ))),
                             SizedBox(
                                 width: 275,
@@ -200,25 +224,89 @@ class RoomeCreate extends StatelessWidget {
                       Padding(
                           padding: EdgeInsets.only(bottom: 10),
                           child: Row(children: <Widget>[
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.face,
-                                  size: 25, color: Colors.yellow[700]),
+                            RichText(
+                              text: TextSpan(
+                                style: TextStyle(
+                                  color: Colors.indigo[900],
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.normal,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: 'アイコンを選択 ',
+                                  ),
+                                ],
+                              ),
                             ),
-                            SizedBox(
-                                width: 275,
-                                height: 50,
-                                child: TextFormField(
-                                    decoration: InputDecoration(
-                                        labelText: "ニックネーム",
-                                        hintText: "ニックネーム",
-                                        fillColor: Colors.white,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(25.0),
-                                          borderSide: BorderSide(),
-                                        )))),
                           ])),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Container(
+                          height: 100.0,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: <Widget>[
+                              for (var icon in iconList)
+                                Container(
+                                    width: 70,
+                                    margin:
+                                        EdgeInsets.only(left: 10, right: 10.0),
+                                    child: Column(children: <Widget>[
+                                      Container(
+                                        child: CircleAvatar(
+                                          backgroundImage: AssetImage(icon),
+                                          backgroundColor:
+                                              Colors.transparent, // 背景色
+                                        ),
+                                      ),
+                                      ButtonTheme(
+                                        child: RaisedButton(
+                                          child: userIcon == icon
+                                              ? Text(
+                                                  '選択中',
+                                                  style: TextStyle(
+                                                    fontSize: 12.5,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                )
+                                              : Text(
+                                                  '選択',
+                                                  style: TextStyle(
+                                                    fontSize: 12.5,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                          color: (() {
+                                            if (userIcon != icon) {
+                                              return Colors.white;
+                                            } else if (roomType) {
+                                              return colorPublic;
+                                            } else {
+                                              return colorPrivate;
+                                            }
+                                          })(),
+                                          shape: Border(
+                                            top: BorderSide(color: Colors.red),
+                                            left:
+                                                BorderSide(color: Colors.blue),
+                                            right: BorderSide(
+                                                color: Colors.yellow),
+                                            bottom:
+                                                BorderSide(color: Colors.green),
+                                          ),
+                                          onPressed: () {
+                                            print(icon);
+                                            setState(() {
+                                              userIcon = icon;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ])),
+                            ],
+                          ),
+                        ),
+                      ),
                     ])),
               ]),
             ),
