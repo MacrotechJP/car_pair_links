@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 
-class RoomePublic extends StatelessWidget {
+class RoomePublic extends StatefulWidget {
+  // 使用するStateを指定
+  @override
+  _RoomePublic createState() => _RoomePublic();
+}
+
+// Stateを継承して使う
+class _RoomePublic extends State<RoomePublic> {
+  // 状態変数定義
+  bool menuVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -12,129 +22,96 @@ class RoomePublic extends StatelessWidget {
               width: double.infinity,
               decoration: new BoxDecoration(
                 image: new DecorationImage(
-                  image: new AssetImage("images/sample.gif"),
+                  image: new AssetImage("images/sample.png"),
                   fit: BoxFit.cover,
                 ),
               ),
-            ),
-            Container(
-              height: double.infinity,
-              width: double.infinity,
-              color: Colors.black.withOpacity(0.5),
             ),
             Scaffold(
               backgroundColor: Colors.transparent,
               body: Column(children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(top: 80, bottom: 40),
-                  child: Text(
-                    '公開ルーム',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 50.0,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.normal,
-                      decoration: TextDecoration.underline,
+                    margin: EdgeInsets.all(30),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      // border: Border.all(color: Colors.red),
+                      borderRadius: BorderRadius.circular(25),
+                      color: Colors.black.withOpacity(0.3),
                     ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(bottom: 40),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      ButtonTheme(
-                        minWidth: 300.0,
-                        height: 60.0,
-                        child: RaisedButton.icon(
-                          icon: const Icon(
-                            Icons.cloud_queue,
+                    child: Row(children: <Widget>[
+                      Container(
+                          padding: EdgeInsets.all(5),
+                          margin: EdgeInsets.only(right: 10, left: 10),
+                          decoration: BoxDecoration(
+                            // border: Border.all(color: Colors.red),
+                            borderRadius: BorderRadius.circular(25),
                             color: Colors.white,
                           ),
-                          label: const Text(
-                            "ルームを作る",
-                            style: TextStyle(
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, '/roomCreate'); //routesで定義した名称を指定する
-                          },
-                          elevation: 16,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          color: Colors.lightBlue[400],
-                          textColor: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(bottom: 40),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      ButtonTheme(
-                        minWidth: 300.0,
-                        height: 60.0,
-                        child: RaisedButton.icon(
-                          icon: const Icon(
-                            Icons.cloud_queue,
-                            color: Colors.white,
-                          ),
-                          label: const Text(
-                            "ルームへ参加",
-                            style: TextStyle(
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          onPressed: () {},
-                          elevation: 16,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          color: Colors.lightBlue[400],
-                          textColor: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    RichText(
-                      // textAlign: TextAlign.center,
-                      text: TextSpan(
+                          child: Icon(Icons.meeting_room,
+                              size: 35, color: Colors.blue)),
+                      Text(
+                        '紀伊半島へ行こう',
                         style: TextStyle(
                           color: Colors.white,
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.normal,
                         ),
-                        children: [
-                          TextSpan(
-                            text: '< ルームとは >\n',
-                            style: TextStyle(
-                              color: Colors.yellow[500],
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          TextSpan(
-                            text: '・位置情報を共有する為の、共通の部屋です。\n',
-                          ),
-                          TextSpan(
-                            text: '・ルームは誰でも作る事が出来ます。',
-                          ),
-                        ],
                       ),
-                    ),
-                  ],
-                ),
+                    ])),
+                Expanded(
+                  child: menuVisible
+                      ? Container(
+                          width: double.infinity,
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 60,
+                            child: RaisedButton(
+                              child: Icon(Icons.keyboard_arrow_up,
+                                  size: 40, color: Colors.white),
+                              onPressed: () {
+                                print(11);
+                                setState(() {
+                                  menuVisible = !menuVisible;
+                                });
+                              },
+                              elevation: 16,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    topLeft: Radius.circular(20)),
+                              ),
+                              color: Colors.indigo[600],
+                              textColor: Colors.white,
+                            ),
+                          ))
+                      : Container(
+                          width: double.infinity,
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 35,
+                            child: RaisedButton(
+                              child: Icon(Icons.keyboard_arrow_up,
+                                  size: 40, color: Colors.white),
+                              onPressed: () {
+                                print(11);
+                                setState(() {
+                                  menuVisible = !menuVisible;
+                                });
+                              },
+                              elevation: 16,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    topLeft: Radius.circular(20)),
+                              ),
+                              color: Colors.indigo[600],
+                              textColor: Colors.white,
+                            ),
+                          )),
+                )
               ]),
             ),
           ],
