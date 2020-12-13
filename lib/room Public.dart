@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class RoomeHome extends StatelessWidget {
+class RoomePublic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -28,7 +28,7 @@ class RoomeHome extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.only(top: 80, bottom: 40),
                   child: Text(
-                    'ルーム',
+                    '公開ルーム',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 50.0,
@@ -60,7 +60,8 @@ class RoomeHome extends StatelessWidget {
                             textAlign: TextAlign.center,
                           ),
                           onPressed: () {
-                            Navigator.pushNamed(context, '/roomCreate');
+                            Navigator.pushNamed(
+                                context, '/roomCreate'); //routesで定義した名称を指定する
                           },
                           elevation: 16,
                           shape: RoundedRectangleBorder(

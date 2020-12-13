@@ -37,32 +37,36 @@ class _RoomeCreate extends State<RoomeCreate> {
               width: double.infinity,
               color: Colors.white,
             ),
-            Container(
-                width: double.infinity,
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: RaisedButton(
-                    child: const Text(
-                      "作成",
-                      style: TextStyle(
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    onPressed: () {},
-                    elevation: 16,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          topLeft: Radius.circular(20)),
-                    ),
-                    color: Colors.indigo[600],
-                    textColor: Colors.white,
-                  ),
-                )),
+            // Container(
+            //     width: double.infinity,
+            //     alignment: Alignment.bottomCenter,
+            //     child: SizedBox(
+            //       width: double.infinity,
+            //       height: 50,
+            //       child: RaisedButton(
+            //         child: const Text(
+            //           "作成",
+            //           style: TextStyle(
+            //             fontSize: 25.0,
+            //             fontWeight: FontWeight.w700,
+            //           ),
+            //           textAlign: TextAlign.center,
+            //         ),
+            //         onPressed: () {
+            //           print(11);
+            //           Navigator.pushNamed(
+            //               context, '/roomHome'); //routesで定義した名称を指定する
+            //         },
+            //         elevation: 16,
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.only(
+            //               topRight: Radius.circular(20),
+            //               topLeft: Radius.circular(20)),
+            //         ),
+            //         color: Colors.indigo[600],
+            //         textColor: Colors.white,
+            //       ),
+            //     )),
             Scaffold(
               backgroundColor: Colors.transparent,
               appBar: new AppBar(
@@ -308,6 +312,38 @@ class _RoomeCreate extends State<RoomeCreate> {
                         ),
                       ),
                     ])),
+                new Expanded(
+                  child: Container(
+                      width: double.infinity,
+                      alignment: Alignment.bottomCenter,
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: RaisedButton(
+                          child: const Text(
+                            "作成",
+                            style: TextStyle(
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          onPressed: () {
+                            print(11);
+                            Navigator.pushNamed(
+                                context, '/room/public'); //routesで定義した名称を指定する
+                          },
+                          elevation: 16,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20),
+                                topLeft: Radius.circular(20)),
+                          ),
+                          color: Colors.indigo[600],
+                          textColor: Colors.white,
+                        ),
+                      )),
+                ),
               ]),
             ),
           ],
