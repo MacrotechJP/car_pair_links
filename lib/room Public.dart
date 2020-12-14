@@ -34,7 +34,6 @@ class _RoomePublic extends State<RoomePublic> {
                     margin: EdgeInsets.all(30),
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      // border: Border.all(color: Colors.red),
                       borderRadius: BorderRadius.circular(25),
                       color: Colors.black.withOpacity(0.3),
                     ),
@@ -43,7 +42,6 @@ class _RoomePublic extends State<RoomePublic> {
                           padding: EdgeInsets.all(5),
                           margin: EdgeInsets.only(right: 10, left: 10),
                           decoration: BoxDecoration(
-                            // border: Border.all(color: Colors.red),
                             borderRadius: BorderRadius.circular(25),
                             color: Colors.white,
                           ),
@@ -62,28 +60,54 @@ class _RoomePublic extends State<RoomePublic> {
                 Expanded(
                   child: menuVisible
                       ? Container(
-                          width: double.infinity,
+                          // width: double.infinity,
                           alignment: Alignment.bottomCenter,
                           child: SizedBox(
                             width: double.infinity,
-                            height: 60,
-                            child: RaisedButton(
-                              child: Icon(Icons.keyboard_arrow_up,
-                                  size: 40, color: Colors.white),
-                              onPressed: () {
-                                print(11);
-                                setState(() {
-                                  menuVisible = !menuVisible;
-                                });
-                              },
-                              elevation: 16,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(20),
-                                    topLeft: Radius.circular(20)),
+                            height: 100,
+                            child: Container(
+                              color: Colors.greenAccent,
+                              padding: EdgeInsets.all(10.0),
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: <Widget>[
+                                  Container(
+                                      width: 70,
+                                      // margin:EdgeInsets.only(left: 10, right: 10.0),
+                                      child: Column(children: <Widget>[
+                                        Container(
+                                          child: CircleAvatar(
+                                            backgroundImage: AssetImage(
+                                                "images/icon-01.png"),
+                                            backgroundColor:
+                                                Colors.transparent, // 背景色
+                                          ),
+                                        ),
+                                        ButtonTheme(
+                                          child: RaisedButton(
+                                            child: Text(
+                                              '選択中',
+                                              style: TextStyle(
+                                                fontSize: 12.5,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            color: Colors.white,
+                                            shape: Border(
+                                              top:
+                                                  BorderSide(color: Colors.red),
+                                              left: BorderSide(
+                                                  color: Colors.blue),
+                                              right: BorderSide(
+                                                  color: Colors.yellow),
+                                              bottom: BorderSide(
+                                                  color: Colors.green),
+                                            ),
+                                          ),
+                                        ),
+                                      ])),
+                                ],
                               ),
-                              color: Colors.indigo[600],
-                              textColor: Colors.white,
                             ),
                           ))
                       : Container(
