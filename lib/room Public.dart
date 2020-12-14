@@ -60,56 +60,157 @@ class _RoomePublic extends State<RoomePublic> {
                 Expanded(
                   child: menuVisible
                       ? Container(
-                          // width: double.infinity,
                           alignment: Alignment.bottomCenter,
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 100,
-                            child: Container(
-                              color: Colors.greenAccent,
-                              padding: EdgeInsets.all(10.0),
-                              child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                children: <Widget>[
-                                  Container(
-                                      width: 70,
-                                      // margin:EdgeInsets.only(left: 10, right: 10.0),
-                                      child: Column(children: <Widget>[
-                                        Container(
-                                          child: CircleAvatar(
-                                            backgroundImage: AssetImage(
-                                                "images/icon-01.png"),
-                                            backgroundColor:
-                                                Colors.transparent, // 背景色
-                                          ),
-                                        ),
-                                        ButtonTheme(
-                                          child: RaisedButton(
-                                            child: Text(
-                                              '選択中',
-                                              style: TextStyle(
-                                                fontSize: 12.5,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            color: Colors.white,
-                                            shape: Border(
-                                              top:
-                                                  BorderSide(color: Colors.red),
-                                              left: BorderSide(
-                                                  color: Colors.blue),
-                                              right: BorderSide(
-                                                  color: Colors.yellow),
-                                              bottom: BorderSide(
-                                                  color: Colors.green),
-                                            ),
-                                          ),
-                                        ),
-                                      ])),
-                                ],
+                          height: 100,
+                          child: Container(
+                              padding: EdgeInsets.only(left: 10, right: 10),
+                              height: 100,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    topLeft: Radius.circular(20)),
+                                color: Colors.indigo[600],
                               ),
-                            ),
-                          ))
+                              child: Container(
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Container(
+                                            width: 70,
+                                            child: Column(children: <Widget>[
+                                              Container(
+                                                  margin: EdgeInsets.only(
+                                                      bottom: 10),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25),
+                                                    color: Colors.blue[100],
+                                                  ),
+                                                  child: Center(
+                                                      child: IconButton(
+                                                          onPressed: () {},
+                                                          icon: Icon(Icons.link,
+                                                              size: 35,
+                                                              color: Colors
+                                                                  .white)))),
+                                              Text(
+                                                'ナビ連携',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontStyle: FontStyle.normal,
+                                                ),
+                                              ),
+                                            ])),
+                                        Container(
+                                            width: 70,
+                                            child: Column(children: <Widget>[
+                                              Container(
+                                                  margin: EdgeInsets.only(
+                                                      bottom: 10),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25),
+                                                    color: Colors.blue[100],
+                                                  ),
+                                                  child: Center(
+                                                      child: IconButton(
+                                                          onPressed: () {},
+                                                          icon: Icon(
+                                                              Icons.email,
+                                                              size: 35,
+                                                              color: Colors
+                                                                  .white)))),
+                                              Text(
+                                                '招待',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontStyle: FontStyle.normal,
+                                                ),
+                                              ),
+                                            ])),
+                                        Container(
+                                            width: 70,
+                                            child: Column(children: <Widget>[
+                                              Container(
+                                                  margin: EdgeInsets.only(
+                                                      bottom: 10),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25),
+                                                    color: Colors.blue[100],
+                                                  ),
+                                                  child: Center(
+                                                      child: IconButton(
+                                                          onPressed: () {
+                                                            Navigator.pushNamed(
+                                                                context,
+                                                                '/roomHome'); //routesで定義した名称を指定する
+                                                          },
+                                                          icon: Icon(
+                                                              Icons.exit_to_app,
+                                                              size: 35,
+                                                              color: Colors
+                                                                  .white)))),
+                                              Text(
+                                                'ルーム退出',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontStyle: FontStyle.normal,
+                                                ),
+                                              ),
+                                            ])),
+                                        Container(
+                                            width: 70,
+                                            child: Column(children: <Widget>[
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(bottom: 10),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(25),
+                                                  color: Colors.blue[100],
+                                                ),
+                                                child: Center(
+                                                    child: IconButton(
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            menuVisible =
+                                                                !menuVisible;
+                                                          });
+                                                        },
+                                                        icon: Icon(
+                                                            Icons
+                                                                .close_fullscreen,
+                                                            size: 35,
+                                                            color:
+                                                                Colors.white))),
+                                              ),
+                                              Text(
+                                                '閉じる',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontStyle: FontStyle.normal,
+                                                ),
+                                              ),
+                                            ])),
+                                      ],
+                                    ),
+                                  ])))
+                          // ),
+                          )
                       : Container(
                           width: double.infinity,
                           alignment: Alignment.bottomCenter,
