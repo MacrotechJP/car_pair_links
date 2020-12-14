@@ -94,7 +94,9 @@ class RoomeHome extends StatelessWidget {
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/roomEnter');
+                          },
                           elevation: 16,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
