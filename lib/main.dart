@@ -4,6 +4,7 @@ import 'package:car_pair_links/roomHome.dart';
 import 'package:car_pair_links/roomCreate.dart';
 import 'package:car_pair_links/roomEnter.dart';
 import 'package:car_pair_links/roomPublic.dart';
+import 'package:car_pair_links/roomPrivate.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -14,7 +15,7 @@ void main() {
       '/roomCreate': (context) => RoomeCreate(),
       '/roomEnter': (context) => RoomeEnter(),
       '/room/public': (context) => RoomePublic(),
-      // '/room/private': (context) => RoomeHome(),
+      '/room/private': (context) => RoomePrivate(),
     },
   ));
 }

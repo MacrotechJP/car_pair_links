@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:car_pair_links/ViewRoomCreateToRoomPublic.dart';
+import 'package:car_pair_links/ViewRoomCreateToRoomPrivate.dart';
 
-class RoomePublic extends StatefulWidget {
+class RoomePrivate extends StatefulWidget {
   @override
-  _RoomePublic createState() => _RoomePublic();
+  _RoomePrivate createState() => _RoomePrivate();
 }
 
 // Stateを継承して使う
-class _RoomePublic extends State<RoomePublic> {
+class _RoomePrivate extends State<RoomePrivate> {
   // 状態変数定義
   bool menuVisible = false;
 
   @override
   Widget build(BuildContext context) {
-    final ViewRoomCreateToRoomPublic viewRoomCreateToRoomPublic =
+    final ViewRoomCreateToRoomPrivate viewRoomCreateToRoomPrivate =
         ModalRoute.of(context).settings.arguments;
 
     return new MaterialApp(
@@ -50,15 +50,17 @@ class _RoomePublic extends State<RoomePublic> {
                           ),
                           child: Icon(Icons.meeting_room,
                               size: 35, color: Colors.blue)),
-                      Text(
-                        viewRoomCreateToRoomPublic.roomName,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      ),
+                      Container(
+                          margin: EdgeInsets.only(right: 5),
+                          child: Icon(Icons.lock,
+                              size: 25, color: Colors.lightGreen[100])),
+                      Text(viewRoomCreateToRoomPrivate.roomName,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25.0,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.normal,
+                          )),
                     ])),
                 Expanded(
                   child: menuVisible
@@ -128,7 +130,7 @@ class _RoomePublic extends State<RoomePublic> {
                                                       child: IconButton(
                                                           onPressed: () {
                                                             print(
-                                                                viewRoomCreateToRoomPublic
+                                                                viewRoomCreateToRoomPrivate
                                                                     .roomName);
                                                           },
                                                           icon: Icon(

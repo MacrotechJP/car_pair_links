@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:car_pair_links/ViewRoomCreateToRoomPublic.dart';
+import 'package:car_pair_links/ViewRoomCreateToRoomPrivate.dart';
 
 List<String> iconList = [
   "images/icon-01.png",
@@ -22,6 +25,9 @@ class RoomeCreate extends StatefulWidget {
 class _RoomeCreate extends State<RoomeCreate> {
   // 状態変数定義
   bool roomType = true;
+  var roomName = TextEditingController();
+  var roomPassword = TextEditingController();
+  var nickName = TextEditingController();
   String userIcon = "";
   Color colorPublic = Colors.yellow[700];
   Color colorPrivate = Colors.green[700];
@@ -131,6 +137,7 @@ class _RoomeCreate extends State<RoomeCreate> {
                                 width: 275,
                                 height: 50,
                                 child: TextFormField(
+                                    controller: roomName,
                                     decoration: InputDecoration(
                                         labelText: "ルーム名",
                                         hintText: roomType ? "ルーム名" : "ルーム名称",
@@ -156,6 +163,7 @@ class _RoomeCreate extends State<RoomeCreate> {
                                   width: 275,
                                   height: 50,
                                   child: TextFormField(
+                                      controller: roomPassword,
                                       decoration: InputDecoration(
                                           labelText: "共有パスワード",
                                           hintText: "共有パスワード",
@@ -185,6 +193,7 @@ class _RoomeCreate extends State<RoomeCreate> {
                                 width: 275,
                                 height: 50,
                                 child: TextFormField(
+                                    controller: nickName,
                                     decoration: InputDecoration(
                                         labelText: "ニックネーム",
                                         hintText: "ニックネーム",
@@ -298,10 +307,46 @@ class _RoomeCreate extends State<RoomeCreate> {
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          onPressed: () {
-                            print(11);
-                            Navigator.pushNamed(
-                                context, '/room/public'); //routesで定義した名称を指定する
+                          onPressed: () async {
+                            bool processRoomCreate = false;
+                            bool processRoomUserCreate = false;
+                            await Firestore.instance
+                                .collection('rooms')
+                                .document(roomName.text)
+                                .setData({
+                              'type': (roomType) ? "公開中" : "非公開",
+                              'password': roomPassword.text
+                            }).then((value) {
+                              processRoomCreate = true;
+                              print("room created");
+                            }).catchError((error) =>
+                                    print("Failed to add user: $error"));
+                            await Firestore.instance
+                                .collection('rooms')
+                                .document(roomName.text)
+                                .collection('users')
+                                .add({
+                              'nickName': nickName.text,
+                              'userIcon': userIcon
+                            }).then((value) {
+                              processRoomUserCreate = true;
+                              print("roomUser added");
+                            }).catchError((error) =>
+                                    print("Failed to add user: $error"));
+                            if (processRoomCreate && processRoomUserCreate)
+                              (roomType)
+                                  ? Navigator.pushNamed(context, '/room/public',
+                                      arguments: ViewRoomCreateToRoomPublic(
+                                          roomName.text,
+                                          nickName.text,
+                                          userIcon))
+                                  : Navigator.pushNamed(
+                                      context, '/room/private',
+                                      arguments: ViewRoomCreateToRoomPrivate(
+                                          roomName.text,
+                                          roomPassword.text,
+                                          nickName.text,
+                                          userIcon));
                           },
                           elevation: 16,
                           shape: RoundedRectangleBorder(
