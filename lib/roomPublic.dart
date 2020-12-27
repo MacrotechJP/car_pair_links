@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:car_pair_links/ViewRoomCreateToRoomPublic.dart';
+import 'package:car_pair_links/ViewRoomCreateEnterToRoomPublic.dart';
 
 class RoomePublic extends StatefulWidget {
   @override
@@ -13,7 +13,7 @@ class _RoomePublic extends State<RoomePublic> {
 
   @override
   Widget build(BuildContext context) {
-    final ViewRoomCreateToRoomPublic viewRoomCreateToRoomPublic =
+    final ViewRoomCreateEnterToRoomPublic viewRoomCreateToRoomPublic =
         ModalRoute.of(context).settings.arguments;
 
     return new MaterialApp(
@@ -131,13 +131,12 @@ class _RoomePublic extends State<RoomePublic> {
                                                                 viewRoomCreateToRoomPublic
                                                                     .roomName);
                                                           },
-                                                          icon: Icon(
-                                                              Icons.email,
+                                                          icon: Icon(Icons.info,
                                                               size: 35,
                                                               color: Colors
                                                                   .white)))),
                                               Text(
-                                                '招待',
+                                                '情報',
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold,

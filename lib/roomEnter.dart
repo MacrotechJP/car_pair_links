@@ -1,5 +1,9 @@
+import 'package:car_pair_links/ViewRoomCreateEnterToRoomPrivate.dart';
+import 'package:car_pair_links/ViewRoomCreateEnterToRoomPublic.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:car_pair_links/common/FirebaseWrapper.dart';
 
 List<String> iconList = [
   "images/icon-01.png",
@@ -37,10 +41,16 @@ class RoomeEnter extends StatefulWidget {
 class _RoomeEnter extends State<RoomeEnter> {
   // 状態変数定義
   bool roomType = true;
+  var roomName = TextEditingController();
+  var roomPassword = TextEditingController();
+  var nickName = TextEditingController();
+  var userNickName = TextEditingController();
   String userIcon = "";
   String choiceRoom = "";
   Color colorPublic = Colors.yellow[700];
   Color colorPrivate = Colors.green[700];
+
+  var firebaseWrapper = new FirebaseWrapper();
 
   @override
   Widget build(BuildContext context) {
@@ -234,6 +244,7 @@ class _RoomeEnter extends State<RoomeEnter> {
                                   width: 275,
                                   height: 50,
                                   child: TextFormField(
+                                      controller: roomName,
                                       decoration: InputDecoration(
                                           labelText: "ルーム名",
                                           hintText: roomType ? "ルーム名" : "ルーム名称",
@@ -259,6 +270,7 @@ class _RoomeEnter extends State<RoomeEnter> {
                                   width: 275,
                                   height: 50,
                                   child: TextFormField(
+                                      controller: roomPassword,
                                       decoration: InputDecoration(
                                           labelText: "共有パスワード",
                                           hintText: "共有パスワード",
@@ -289,6 +301,7 @@ class _RoomeEnter extends State<RoomeEnter> {
                                 width: 275,
                                 height: 50,
                                 child: TextFormField(
+                                    controller: userNickName,
                                     decoration: InputDecoration(
                                         labelText: "ニックネーム",
                                         hintText: "ニックネーム",
@@ -395,17 +408,49 @@ class _RoomeEnter extends State<RoomeEnter> {
                         height: 50,
                         child: RaisedButton(
                           child: const Text(
-                            "作成",
+                            "参加",
                             style: TextStyle(
                               fontSize: 25.0,
                               fontWeight: FontWeight.w700,
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          onPressed: () {
-                            print(11);
-                            Navigator.pushNamed(
-                                context, '/room/public'); //routesで定義した名称を指定する
+                          onPressed: () async {
+                            var nowTime = DateTime.now();
+                            Map processRoomUserCreate =
+                                await firebaseWrapper.roomUserCreate(
+                                    roomName.text,
+                                    nickName.text,
+                                    userIcon,
+                                    nowTime);
+                            if (processRoomUserCreate['process'] == 'Success')
+                              (roomType)
+                                  ? Navigator.pushNamed(context, '/room/public',
+                                      arguments:
+                                          ViewRoomCreateEnterToRoomPublic(
+                                              roomName.text,
+                                              roomName.text,
+                                              processRoomUserCreate['data']
+                                                  ['documentID'],
+                                              processRoomUserCreate['data']
+                                                  ['userNickname'],
+                                              processRoomUserCreate['data']
+                                                  ['userIcon']))
+                                  : Navigator.pushNamed(
+                                      context, '/room/private',
+                                      arguments:
+                                          ViewRoomCreateEnterToRoomPrivate(
+                                              roomName.text,
+                                              roomName.text,
+                                              roomPassword.text,
+                                              processRoomUserCreate['data']
+                                                  ['documentID'],
+                                              processRoomUserCreate['data']
+                                                  ['userNickname'],
+                                              processRoomUserCreate['data']
+                                                  ['userIcon']));
+                            else
+                              print('作成エラー');
                           },
                           elevation: 16,
                           shape: RoundedRectangleBorder(

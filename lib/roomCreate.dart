@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:car_pair_links/ViewRoomCreateToRoomPublic.dart';
-import 'package:car_pair_links/ViewRoomCreateToRoomPrivate.dart';
+import 'package:car_pair_links/ViewRoomCreateEnterToRoomPublic.dart';
+import 'package:car_pair_links/ViewRoomCreateEnterToRoomPrivate.dart';
+import 'package:car_pair_links/common/FirebaseWrapper.dart';
 
 List<String> iconList = [
   "images/icon-01.png",
@@ -31,6 +31,8 @@ class _RoomeCreate extends State<RoomeCreate> {
   String userIcon = "";
   Color colorPublic = Colors.yellow[700];
   Color colorPrivate = Colors.green[700];
+
+  var firebaseWrapper = new FirebaseWrapper();
 
   @override
   Widget build(BuildContext context) {
@@ -308,45 +310,51 @@ class _RoomeCreate extends State<RoomeCreate> {
                             textAlign: TextAlign.center,
                           ),
                           onPressed: () async {
-                            bool processRoomCreate = false;
-                            bool processRoomUserCreate = false;
-                            await Firestore.instance
-                                .collection('rooms')
-                                .document(roomName.text)
-                                .setData({
-                              'type': (roomType) ? "公開中" : "非公開",
-                              'password': roomPassword.text
-                            }).then((value) {
-                              processRoomCreate = true;
-                              print("room created");
-                            }).catchError((error) =>
-                                    print("Failed to add user: $error"));
-                            await Firestore.instance
-                                .collection('rooms')
-                                .document(roomName.text)
-                                .collection('users')
-                                .add({
-                              'nickName': nickName.text,
-                              'userIcon': userIcon
-                            }).then((value) {
-                              processRoomUserCreate = true;
-                              print("roomUser added");
-                            }).catchError((error) =>
-                                    print("Failed to add user: $error"));
-                            if (processRoomCreate && processRoomUserCreate)
+                            var nowTime = DateTime.now();
+                            Map processRoomCreate =
+                                await firebaseWrapper.roomCreate(roomType,
+                                    roomName.text, roomPassword.text, nowTime);
+                            Map processRoomUserCreate =
+                                await firebaseWrapper.roomUserCreate(
+                                    roomName.text,
+                                    nickName.text,
+                                    userIcon,
+                                    nowTime);
+
+                            if (processRoomCreate['process'] == 'Success' &&
+                                processRoomUserCreate['process'] == 'Success')
                               (roomType)
                                   ? Navigator.pushNamed(context, '/room/public',
-                                      arguments: ViewRoomCreateToRoomPublic(
-                                          roomName.text,
-                                          nickName.text,
-                                          userIcon))
+                                      arguments:
+                                          ViewRoomCreateEnterToRoomPublic(
+                                              processRoomCreate['data']
+                                                  ['documentID'],
+                                              processRoomCreate['data']
+                                                  ['roomName'],
+                                              processRoomUserCreate['data']
+                                                  ['documentID'],
+                                              processRoomUserCreate['data']
+                                                  ['userNickname'],
+                                              processRoomUserCreate['data']
+                                                  ['userIcon']))
                                   : Navigator.pushNamed(
                                       context, '/room/private',
-                                      arguments: ViewRoomCreateToRoomPrivate(
-                                          roomName.text,
-                                          roomPassword.text,
-                                          nickName.text,
-                                          userIcon));
+                                      arguments:
+                                          ViewRoomCreateEnterToRoomPrivate(
+                                              processRoomCreate['data']
+                                                  ['documentID'],
+                                              processRoomCreate['data']
+                                                  ['roomName'],
+                                              processRoomCreate['data']
+                                                  ['roomPassword'],
+                                              processRoomUserCreate['data']
+                                                  ['documentID'],
+                                              processRoomUserCreate['data']
+                                                  ['userNickname'],
+                                              processRoomUserCreate['data']
+                                                  ['userIcon']));
+                            else
+                              print('作成エラー');
                           },
                           elevation: 16,
                           shape: RoundedRectangleBorder(
