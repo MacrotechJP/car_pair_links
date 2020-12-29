@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:car_pair_links/ViewRoomCreateEnterToRoomPublic.dart';
-import 'package:car_pair_links/ViewRoomCreateEnterToRoomPrivate.dart';
 import 'package:car_pair_links/common/FirebaseWrapper.dart';
+import 'package:commons/commons.dart';
+import 'package:car_pair_links/src/ViewRoomCreateEnterToRoomMain.dart';
 
 List<String> iconList = [
   "images/icon-01.png",
@@ -37,7 +37,7 @@ class _RoomeCreate extends State<RoomeCreate> {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-        title: 'Flutter Demo',
+        title: 'ルーム作成画面',
         home: Stack(
           children: <Widget>[
             Container(
@@ -46,329 +46,332 @@ class _RoomeCreate extends State<RoomeCreate> {
               color: Colors.white,
             ),
             Scaffold(
-              backgroundColor: Colors.transparent,
-              appBar: new AppBar(
-                flexibleSpace: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('images/header.png'),
-                      fit: BoxFit.cover,
+                backgroundColor: Colors.transparent,
+                appBar: new AppBar(
+                  flexibleSpace: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('images/header.png'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                title: const Text(
-                  "CAR PAIR LINKS",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 2.0,
-                  ),
-                ),
-                backgroundColor: Colors.blue.withOpacity(0.3),
-                elevation: 0.0,
-                leading: IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(
-                        context, '/roomHome'); //routesで定義した名称を指定する
-                  },
-                  icon: Icon(Icons.keyboard_arrow_left,
-                      size: 45, color: Colors.white),
-                ),
-              ),
-              body: Column(children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Text(
-                    'ルームを作成',
+                  title: const Text(
+                    "CAR PAIR LINKS",
                     style: TextStyle(
-                      color: Colors.indigo[900],
-                      fontSize: 25.0,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.normal,
+                      color: Colors.white,
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 2.0,
                     ),
                   ),
+                  backgroundColor: Colors.blue.withOpacity(0.3),
+                  elevation: 0.0,
+                  leading: IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                          context, '/roomHome'); //routesで定義した名称を指定する
+                    },
+                    icon: Icon(Icons.keyboard_arrow_left,
+                        size: 45, color: Colors.white),
+                  ),
                 ),
-                Container(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Column(children: <Widget>[
-                      Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Row(children: <Widget>[
-                            Container(
-                                child: Center(
-                                    child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.public,
-                                  size: 30,
-                                  color: roomType ? colorPublic : colorPrivate),
-                            ))),
-                            ToggleSwitch(
-                              minWidth: 137.5,
-                              initialLabelIndex: roomType ? 0 : 1,
-                              cornerRadius: 20.0,
-                              activeFgColor: Colors.black,
-                              inactiveBgColor: Colors.grey,
-                              inactiveFgColor: Colors.white,
-                              labels: ['公開', '非公開'],
-                              activeBgColors: [
-                                Colors.yellow[700],
-                                Colors.green[700]
-                              ],
-                              onToggle: (index) {
-                                setState(() {
-                                  roomType = !roomType;
-                                });
-                                print('switched to: $index');
-                                print(roomType);
-                              },
-                            ),
-                          ])),
-                      Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Row(children: <Widget>[
-                            Container(
-                                child: Center(
-                                    child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.meeting_room,
-                                  size: 30,
-                                  color: roomType ? colorPublic : colorPrivate),
-                            ))),
-                            SizedBox(
-                                width: 275,
-                                height: 50,
-                                child: TextFormField(
-                                    controller: roomName,
-                                    decoration: InputDecoration(
-                                        labelText: "ルーム名",
-                                        hintText: roomType ? "ルーム名" : "ルーム名称",
-                                        fillColor: Colors.white,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(25.0),
-                                          borderSide: BorderSide(),
-                                        )))),
-                          ])),
-                      if (!roomType)
-                        Padding(
-                            padding: EdgeInsets.only(bottom: 10),
-                            child: Row(children: <Widget>[
-                              Container(
-                                  child: Center(
-                                      child: IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.https,
-                                    size: 30, color: colorPrivate),
-                              ))),
-                              SizedBox(
-                                  width: 275,
-                                  height: 50,
-                                  child: TextFormField(
-                                      controller: roomPassword,
-                                      decoration: InputDecoration(
-                                          labelText: "共有パスワード",
-                                          hintText: "共有パスワード",
-                                          fillColor: Colors.white,
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25.0),
-                                            borderSide: BorderSide(),
-                                          )))),
-                            ])),
-                    ])),
-                Container(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Column(children: <Widget>[
-                      Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Row(children: <Widget>[
-                            Container(
-                                child: Center(
-                                    child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.face,
-                                  size: 30,
-                                  color: roomType ? colorPublic : colorPrivate),
-                            ))),
-                            SizedBox(
-                                width: 275,
-                                height: 50,
-                                child: TextFormField(
-                                    controller: nickName,
-                                    decoration: InputDecoration(
-                                        labelText: "ニックネーム",
-                                        hintText: "ニックネーム",
-                                        fillColor: Colors.white,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(25.0),
-                                          borderSide: BorderSide(),
-                                        )))),
-                          ])),
-                      Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Row(children: <Widget>[
-                            RichText(
-                              text: TextSpan(
-                                style: TextStyle(
-                                  color: Colors.indigo[900],
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.normal,
+                body: SingleChildScrollView(
+                  child: Column(children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: 20),
+                      child: Text(
+                        'ルームを作成',
+                        style: TextStyle(
+                          color: Colors.indigo[900],
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    ),
+                    Container(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Column(children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: Row(children: <Widget>[
+                                Container(
+                                    child: Center(
+                                        child: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.public,
+                                      size: 30,
+                                      color: roomType
+                                          ? colorPublic
+                                          : colorPrivate),
+                                ))),
+                                ToggleSwitch(
+                                  minWidth: 137.5,
+                                  initialLabelIndex: roomType ? 0 : 1,
+                                  cornerRadius: 20.0,
+                                  activeFgColor: Colors.black,
+                                  inactiveBgColor: Colors.grey,
+                                  inactiveFgColor: Colors.white,
+                                  labels: ['公開', '非公開'],
+                                  activeBgColors: [
+                                    Colors.yellow[700],
+                                    Colors.green[700]
+                                  ],
+                                  onToggle: (index) {
+                                    setState(() {
+                                      roomType = !roomType;
+                                    });
+                                    print('switched to: $index');
+                                    print(roomType);
+                                  },
                                 ),
-                                children: [
-                                  TextSpan(
-                                    text: 'アイコンを選択 ',
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: Row(children: <Widget>[
+                                Container(
+                                    child: Center(
+                                        child: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.meeting_room,
+                                      size: 30,
+                                      color: roomType
+                                          ? colorPublic
+                                          : colorPrivate),
+                                ))),
+                                SizedBox(
+                                    width: 275,
+                                    height: 50,
+                                    child: TextFormField(
+                                        controller: roomName,
+                                        decoration: InputDecoration(
+                                            labelText: "ルーム名",
+                                            hintText:
+                                                roomType ? "ルーム名" : "ルーム名称",
+                                            fillColor: Colors.white,
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(25.0),
+                                              borderSide: BorderSide(),
+                                            )))),
+                              ])),
+                          if (!roomType)
+                            Padding(
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: Row(children: <Widget>[
+                                  Container(
+                                      child: Center(
+                                          child: IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.https,
+                                        size: 30, color: colorPrivate),
+                                  ))),
+                                  SizedBox(
+                                      width: 275,
+                                      height: 50,
+                                      child: TextFormField(
+                                          controller: roomPassword,
+                                          decoration: InputDecoration(
+                                              labelText: "共有パスワード",
+                                              hintText: "共有パスワード",
+                                              fillColor: Colors.white,
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.0),
+                                                borderSide: BorderSide(),
+                                              )))),
+                                ])),
+                        ])),
+                    Container(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Column(children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: Row(children: <Widget>[
+                                Container(
+                                    child: Center(
+                                        child: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.face,
+                                      size: 30,
+                                      color: roomType
+                                          ? colorPublic
+                                          : colorPrivate),
+                                ))),
+                                SizedBox(
+                                    width: 275,
+                                    height: 50,
+                                    child: TextFormField(
+                                        controller: nickName,
+                                        decoration: InputDecoration(
+                                            labelText: "ニックネーム",
+                                            hintText: "ニックネーム",
+                                            fillColor: Colors.white,
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(25.0),
+                                              borderSide: BorderSide(),
+                                            )))),
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: Row(children: <Widget>[
+                                RichText(
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      color: Colors.indigo[900],
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FontStyle.normal,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: 'アイコンを選択 ',
+                                      ),
+                                    ],
                                   ),
+                                ),
+                              ])),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: Container(
+                              height: 100.0,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: <Widget>[
+                                  for (var icon in iconList)
+                                    Container(
+                                        width: 70,
+                                        margin: EdgeInsets.only(
+                                            left: 10, right: 10.0),
+                                        child: Column(children: <Widget>[
+                                          Container(
+                                            child: CircleAvatar(
+                                              backgroundImage: AssetImage(icon),
+                                              backgroundColor:
+                                                  Colors.transparent, // 背景色
+                                            ),
+                                          ),
+                                          ButtonTheme(
+                                            child: RaisedButton(
+                                              child: userIcon == icon
+                                                  ? Text(
+                                                      '選択中',
+                                                      style: TextStyle(
+                                                        fontSize: 12.5,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      '選択',
+                                                      style: TextStyle(
+                                                        fontSize: 12.5,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                              color: (() {
+                                                if (userIcon != icon) {
+                                                  return Colors.white;
+                                                } else if (roomType) {
+                                                  return colorPublic;
+                                                } else {
+                                                  return colorPrivate;
+                                                }
+                                              })(),
+                                              shape: Border(
+                                                top: BorderSide(
+                                                    color: Colors.red),
+                                                left: BorderSide(
+                                                    color: Colors.blue),
+                                                right: BorderSide(
+                                                    color: Colors.yellow),
+                                                bottom: BorderSide(
+                                                    color: Colors.green),
+                                              ),
+                                              onPressed: () {
+                                                print(icon);
+                                                setState(() {
+                                                  userIcon = icon;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ])),
                                 ],
                               ),
                             ),
-                          ])),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 10),
-                        child: Container(
-                          height: 100.0,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: <Widget>[
-                              for (var icon in iconList)
-                                Container(
-                                    width: 70,
-                                    margin:
-                                        EdgeInsets.only(left: 10, right: 10.0),
-                                    child: Column(children: <Widget>[
-                                      Container(
-                                        child: CircleAvatar(
-                                          backgroundImage: AssetImage(icon),
-                                          backgroundColor:
-                                              Colors.transparent, // 背景色
-                                        ),
-                                      ),
-                                      ButtonTheme(
-                                        child: RaisedButton(
-                                          child: userIcon == icon
-                                              ? Text(
-                                                  '選択中',
-                                                  style: TextStyle(
-                                                    fontSize: 12.5,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                )
-                                              : Text(
-                                                  '選択',
-                                                  style: TextStyle(
-                                                    fontSize: 12.5,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                          color: (() {
-                                            if (userIcon != icon) {
-                                              return Colors.white;
-                                            } else if (roomType) {
-                                              return colorPublic;
-                                            } else {
-                                              return colorPrivate;
-                                            }
-                                          })(),
-                                          shape: Border(
-                                            top: BorderSide(color: Colors.red),
-                                            left:
-                                                BorderSide(color: Colors.blue),
-                                            right: BorderSide(
-                                                color: Colors.yellow),
-                                            bottom:
-                                                BorderSide(color: Colors.green),
-                                          ),
-                                          onPressed: () {
-                                            print(icon);
-                                            setState(() {
-                                              userIcon = icon;
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                    ])),
-                            ],
                           ),
-                        ),
+                        ])),
+                  ]),
+                )),
+            Container(
+                width: double.infinity,
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: RaisedButton(
+                    child: const Text(
+                      "作成",
+                      style: TextStyle(
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.w700,
                       ),
-                    ])),
-                new Expanded(
-                  child: Container(
-                      width: double.infinity,
-                      alignment: Alignment.bottomCenter,
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: RaisedButton(
-                          child: const Text(
-                            "作成",
-                            style: TextStyle(
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          onPressed: () async {
-                            var nowTime = DateTime.now();
-                            Map processRoomCreate =
-                                await firebaseWrapper.roomCreate(roomType,
-                                    roomName.text, roomPassword.text, nowTime);
-                            Map processRoomUserCreate =
-                                await firebaseWrapper.roomUserCreate(
-                                    roomName.text,
-                                    nickName.text,
-                                    userIcon,
-                                    nowTime);
-
-                            if (processRoomCreate['process'] == 'Success' &&
-                                processRoomUserCreate['process'] == 'Success')
-                              (roomType)
-                                  ? Navigator.pushNamed(context, '/room/public',
-                                      arguments:
-                                          ViewRoomCreateEnterToRoomPublic(
-                                              processRoomCreate['data']
-                                                  ['documentID'],
-                                              processRoomCreate['data']
-                                                  ['roomName'],
-                                              processRoomUserCreate['data']
-                                                  ['documentID'],
-                                              processRoomUserCreate['data']
-                                                  ['userNickname'],
-                                              processRoomUserCreate['data']
-                                                  ['userIcon']))
-                                  : Navigator.pushNamed(
-                                      context, '/room/private',
-                                      arguments:
-                                          ViewRoomCreateEnterToRoomPrivate(
-                                              processRoomCreate['data']
-                                                  ['documentID'],
-                                              processRoomCreate['data']
-                                                  ['roomName'],
-                                              processRoomCreate['data']
-                                                  ['roomPassword'],
-                                              processRoomUserCreate['data']
-                                                  ['documentID'],
-                                              processRoomUserCreate['data']
-                                                  ['userNickname'],
-                                              processRoomUserCreate['data']
-                                                  ['userIcon']));
-                            else
-                              print('作成エラー');
-                          },
-                          elevation: 16,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(20),
-                                topLeft: Radius.circular(20)),
-                          ),
-                          color: Colors.indigo[600],
-                          textColor: Colors.white,
-                        ),
-                      )),
-                ),
-              ]),
-            ),
+                      textAlign: TextAlign.center,
+                    ),
+                    onPressed: () async {
+                      // 入力チェック
+                      bool fieldCheck = true;
+                      if (roomType) {
+                        if (roomName.text == "" ||
+                            nickName.text == "" ||
+                            userIcon == "") fieldCheck = false;
+                      } else {
+                        if (roomName.text == "" ||
+                            roomPassword.text == "" ||
+                            nickName.text == "" ||
+                            userIcon == "") fieldCheck = false;
+                      }
+                      if (fieldCheck == false) {
+                        warningDialog(context, "不足入力項目が存在します。\n入力処理を行ってください。");
+                        return false;
+                      }
+                      // ルーム存在チェック
+                      Map processRoomCheckExist =
+                          await firebaseWrapper.roomCheckExist(roomName.text);
+                      if (processRoomCheckExist["isRoomExist"]) {
+                        errorDialog(context, "既にルームが存在します。");
+                        return false;
+                      }
+                      // ルーム&ルームユーザ作成処理
+                      var nowTime = DateTime.now();
+                      Map processRoomCreate = await firebaseWrapper.roomCreate(
+                          roomType, roomName.text, roomPassword.text, nowTime);
+                      Map processRoomUserCreate =
+                          await firebaseWrapper.roomUserCreate(
+                              roomName.text, nickName.text, userIcon, nowTime);
+                      if (processRoomCreate['process'] == 'Success' &&
+                          processRoomUserCreate['process'] == 'Success')
+                        Navigator.pushNamed(context, '/roomMain',
+                            arguments: ViewRoomCreateEnterToRoomMain(
+                              processRoomCreate['data']['documentID'],
+                              processRoomUserCreate['data']['documentID'],
+                            ));
+                      else
+                        print('作成エラー');
+                    },
+                    elevation: 16,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          topLeft: Radius.circular(20)),
+                    ),
+                    color: Colors.indigo[600],
+                    textColor: Colors.white,
+                  ),
+                )),
           ],
         ));
   }

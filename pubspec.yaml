@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   toggle_switch: "^0.1.8"
   cloud_firestore: ^0.13.0+1
+  commons: ^0.7.8+1
 
 dev_dependencies:
   flutter_test:

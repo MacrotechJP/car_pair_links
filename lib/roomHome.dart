@@ -4,7 +4,7 @@ class RoomeHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-        title: 'Flutter Demo',
+        title: 'ルームホーム画面',
         home: Stack(
           children: <Widget>[
             Container(
