@@ -142,6 +142,8 @@ class FirebaseWrapper {
       await documentReference.setData({
         'ユーザニックネーム': userNickname,
         'ユーザアイコン': userIcon,
+        '位置情報（緯度）': 35.3392588,
+        '位置情報（経度）': 134.1966518,
         '作成時間': nowTime,
         '更新時間': nowTime
       });
@@ -158,7 +160,22 @@ class FirebaseWrapper {
   }
 
   /* ルームユーザの更新 */
-  void roomUserUpdate() {}
+  Future<Map> roomUserUpdate(String roomDocumentId, String roomUserDocumentId,
+      Map roomUserUpdateData) async {
+    var resultUpdated = Map();
+    try {
+      await Firestore.instance
+          .collection('rooms')
+          .document(roomDocumentId)
+          .collection('users')
+          .document(roomUserDocumentId)
+          .updateData(roomUserUpdateData);
+      resultUpdated['process'] = 'Success';
+    } catch (error) {
+      resultUpdated['process'] = 'Error';
+    }
+    return resultUpdated;
+  }
 
   /* ルームユーザの削除 */
   Future<Map> roomUserDelete(

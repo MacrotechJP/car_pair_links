@@ -341,9 +341,12 @@ class _RoomeCreate extends State<RoomeCreate> {
                       // ルーム存在チェック
                       Map processRoomCheckExist =
                           await firebaseWrapper.roomCheckExist(roomName.text);
-                      if (processRoomCheckExist["isRoomExist"]) {
+                      if (processRoomCheckExist["process"] == "Success" &&
+                          processRoomCheckExist["isRoomExist"]) {
                         errorDialog(context, "既にルームが存在します。");
                         return false;
+                      } else {
+                        print("ルーム存在チェックエラー");
                       }
                       // ルーム&ルームユーザ作成処理
                       var nowTime = DateTime.now();

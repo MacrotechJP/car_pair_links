@@ -161,159 +161,142 @@ class _RoomeEnter extends State<RoomeEnter> {
                                         if (snapshot.data == null)
                                           return CircularProgressIndicator();
                                         var roomData = snapshot.data.documents;
-                                        return ListView(
-                                          scrollDirection: Axis.vertical,
-                                          children: <Widget>[
-                                            for (int index = 0;
-                                                index < roomData.length;
-                                                index++)
-                                              Container(
-                                                  height: 50.0,
-                                                  margin: EdgeInsets.only(
-                                                      bottom: 10),
-                                                  padding: EdgeInsets.only(
-                                                      left: 25, right: 15),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30),
-                                                    image: new DecorationImage(
-                                                      image: AssetImage(
-                                                          bgimageRoom[
-                                                              index % 4]),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                  child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: <Widget>[
-                                                        Container(
-                                                          child: Text(
-                                                            roomData[index]
-                                                                .documentID,
-                                                            style: TextStyle(
-                                                              fontSize: 15,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
+                                        return (roomData.length == 0)
+                                            ? Container(
+                                                child: Text("ルームが存在しません。"),
+                                              )
+                                            : ListView(
+                                                scrollDirection: Axis.vertical,
+                                                children: <Widget>[
+                                                  for (int index = 0;
+                                                      index < roomData.length;
+                                                      index++)
+                                                    Container(
+                                                        height: 50.0,
+                                                        margin: EdgeInsets.only(
+                                                            bottom: 10),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 25,
+                                                                right: 15),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(30),
+                                                          image:
+                                                              new DecorationImage(
+                                                            image: AssetImage(
+                                                                bgimageRoom[
+                                                                    index % 4]),
+                                                            fit: BoxFit.cover,
                                                           ),
                                                         ),
-                                                        Container(
-                                                            child: Row(
-                                                          children: [
-                                                            Container(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        right:
-                                                                            5,
-                                                                        bottom:
-                                                                            5),
-                                                                alignment: Alignment
-                                                                    .bottomCenter,
-                                                                child: Row(
-                                                                  children: [
-                                                                    Icon(
-                                                                        Icons
-                                                                            .group,
-                                                                        size:
-                                                                            20,
-                                                                        color: Colors
-                                                                            .white),
-                                                                    StreamBuilder<
-                                                                            QuerySnapshot>(
-                                                                        stream: Firestore
-                                                                            .instance
-                                                                            .collection(
-                                                                                'rooms')
-                                                                            .document(roomData[index]
-                                                                                .documentID)
-                                                                            .collection(
-                                                                                "users")
-                                                                            .snapshots(),
-                                                                        builder: (BuildContext
-                                                                                context,
-                                                                            AsyncSnapshot<QuerySnapshot>
-                                                                                snapshot) {
-                                                                          if (snapshot.data ==
-                                                                              null)
-                                                                            return CircularProgressIndicator();
-                                                                          var roomUserData = snapshot
-                                                                              .data
-                                                                              .documents;
-                                                                          return Text(
-                                                                            roomUserData.length.toString(),
+                                                        child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: <Widget>[
+                                                              Container(
+                                                                child: Text(
+                                                                  roomData[
+                                                                          index]
+                                                                      .documentID,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                  child: Row(
+                                                                children: [
+                                                                  Container(
+                                                                      padding: EdgeInsets.only(
+                                                                          right:
+                                                                              5,
+                                                                          bottom:
+                                                                              5),
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .bottomCenter,
+                                                                      child:
+                                                                          Row(
+                                                                        children: [
+                                                                          Icon(
+                                                                              Icons.group,
+                                                                              size: 20,
+                                                                              color: Colors.white),
+                                                                          StreamBuilder<QuerySnapshot>(
+                                                                              stream: Firestore.instance.collection('rooms').document(roomData[index].documentID).collection("users").snapshots(),
+                                                                              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                                                                if (snapshot.data == null) return CircularProgressIndicator();
+                                                                                var roomUserData = snapshot.data.documents;
+                                                                                return Text(
+                                                                                  roomUserData.length.toString(),
+                                                                                  style: TextStyle(
+                                                                                    fontSize: 15,
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    color: Colors.white,
+                                                                                  ),
+                                                                                );
+                                                                              }),
+                                                                        ],
+                                                                      )),
+                                                                  RaisedButton(
+                                                                    child: choiceRoom ==
+                                                                            roomData[index].documentID
+                                                                        ? Text(
+                                                                            '選択中',
                                                                             style:
                                                                                 TextStyle(
-                                                                              fontSize: 15,
+                                                                              fontSize: 20,
                                                                               fontWeight: FontWeight.bold,
-                                                                              color: Colors.white,
+                                                                              color: Colors.black54,
                                                                             ),
-                                                                          );
-                                                                        }),
-                                                                  ],
-                                                                )),
-                                                            RaisedButton(
-                                                              child: choiceRoom ==
-                                                                      roomData[
-                                                                              index]
-                                                                          .documentID
-                                                                  ? Text(
-                                                                      '選択中',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            20,
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                        color: Colors
-                                                                            .black54,
-                                                                      ),
-                                                                    )
-                                                                  : Text(
-                                                                      '選択',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            20,
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                        color: Colors
-                                                                            .black54,
-                                                                      ),
+                                                                          )
+                                                                        : Text(
+                                                                            '選択',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 20,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              color: Colors.black54,
+                                                                            ),
+                                                                          ),
+                                                                    color: choiceRoom ==
+                                                                            roomData[index]
+                                                                                .documentID
+                                                                        ? colorPublic
+                                                                        : Colors
+                                                                            .white
+                                                                            .withOpacity(0.5),
+                                                                    shape:
+                                                                        RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10),
                                                                     ),
-                                                              color: choiceRoom ==
-                                                                      roomData[
-                                                                              index]
-                                                                          .documentID
-                                                                  ? colorPublic
-                                                                  : Colors.white
-                                                                      .withOpacity(
-                                                                          0.5),
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                              ),
-                                                              onPressed: () {
-                                                                setState(() {
-                                                                  choiceRoom = roomData[
-                                                                          index]
-                                                                      .documentID;
-                                                                });
-                                                              },
-                                                            ),
-                                                          ],
-                                                        )),
-                                                      ])),
-                                          ],
-                                        );
+                                                                    onPressed:
+                                                                        () {
+                                                                      setState(
+                                                                          () {
+                                                                        choiceRoom =
+                                                                            roomData[index].documentID;
+                                                                      });
+                                                                    },
+                                                                  ),
+                                                                ],
+                                                              )),
+                                                            ])),
+                                                ],
+                                              );
                                       })),
                             ),
                           if (!roomType)
